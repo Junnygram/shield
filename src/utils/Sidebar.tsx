@@ -31,9 +31,9 @@ function Sidebar({ setShowSide, showSide }: Side) {
   };
 
   const navlinks = [
-    { label: 'Home', href: '/' },
+    // { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
-    { label: 'Contact us', href: '/contact' },
+    { label: 'Contact', href: '/contact' },
     { label: 'Login', href: 'login' },
   ];
 
@@ -43,44 +43,41 @@ function Sidebar({ setShowSide, showSide }: Side) {
         bgColor="#FFFFFF"
         h="100vh"
         w={{
-          base: showSide ? '60%' : '0',
+          base: showSide ? '40%' : '0',
         }}
         right={showSide ? '0%' : '-20%'}
         pos="fixed"
-        pl={{ base: showSide ? '2rem' : '0', md: 'none' }}
+        px={{ base: showSide ? '2rem' : '0', md: 'none' }}
         pt="2rem"
         zIndex="1"
         align="flex-start"
         boxShadow="0 20px 27px 0 rgb(0 0 0 / 5%)"
         transition="all .2s ease-in"
       >
-        <VStack
-          align="flex-start"
-          justify="space-between"
-          minH="75vh"
-          w={showSide ? '40%' : ''}
-        >
-          <VStack
-            align="flex-start"
-            spacing={0}
+        <VStack align="flex-start" justify="space-between" minH="75vh" w="100%">
+          <Flex
+            flexDir="column"
+            align="start"
             gap="1.5rem"
-            mt="4rem"
-            mr={{ base: '-2rem' }}
-            w="full"
+            mt="2rem"
+            // mr={{ base: '-2rem' }}
+            w="80%"
+            mx="auto"
+            justify="center"
           >
             <>
               {navlinks.map((x, i) => (
                 <Box key={i}>
                   <MenuItems
                     name={x.label}
-                    url={x.label}
+                    url={x.href}
                     icon={<RxDashboard cursor="default" />}
                     // close={closeSide}
                   />
                 </Box>
               ))}
             </>
-          </VStack>
+          </Flex>
         </VStack>
       </VStack>
     </Box>

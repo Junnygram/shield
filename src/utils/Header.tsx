@@ -21,13 +21,13 @@ const Header = ({ showSide, setShowSide }: SideProps) => {
   const [head, setHead] = useState('headingg');
   console.log({ head });
   const navlinks = [
-    { label: 'Home', href: '/' },
+    // { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
-    { label: 'Contact us', href: '/contact' },
+    { label: 'Contact', href: '/contact' },
     { label: 'Login', href: 'login' },
   ];
   return (
-    <Box bgColor="greenyellow">
+    <Box bgColor="gray.400">
       <Stack p={'10px'}>
         <Flex
           justify={'space-between'}
