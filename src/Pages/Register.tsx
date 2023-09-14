@@ -28,6 +28,8 @@ import { RegisterModel } from '../model/RegisterModel';
 import { BsCheckCircle } from 'react-icons/bs';
 import SubmitButton from '../components/SubmitButton';
 import PrimaryInput from '../components/PrimaryInput';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 // import { Carousel } from 'react-responsive-carousel';
 // // import Link from "next/link";
 
@@ -45,6 +47,7 @@ const validation = yup.object().shape({
 });
 
 const Register = () => {
+  const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const changeInputType = () => {
     setPasswordVisible(!passwordVisible);
@@ -64,26 +67,48 @@ const Register = () => {
     mode: 'all',
   });
 
+  const [user, setUser] = React.useState({
+    firstname: '',
+    lastname: '',
+    email: '',
+    password: '',
+  });
+
+  const onSignup = async () => {
+    try {
+      const response = await axios.post('/api/user/signup', user);
+      console.log('Signup success', response.data);
+      router.push('/login');
+    } catch (error: any) {
+      console.log('Signup failed', error.message);
+
+      toast.error(error.message);
+    } finally {
+    }
+  };
   const onSubmitRegister = async (data: RegisterModel) => {
     if (!terms) {
       toast.error('You have not accepted the terms and conditions');
       return;
     }
-    // console.log({ data });
-    // try {
-    //   const result = await UserService.create({ requestBody: data });
-    //   console.log({ result });
-    //   if (result.status) {
-    //     toast.success(result.message as string);
-    //     setSuccess(true);
-    //     return;
-    //   }
-    //   toast.error(result.message as string);
-    //   return;
-    // } catch (error: any) {
-    //   toast.error(error?.body?.message || error?.message);
-    // }
+    try {
+      const response = await axios.post('/api/user/signup', {
+        requestBody: data,
+      });
+      console.log('Signup success', response.data);
+      router.push('/login');
+      if (response.status) {
+        toast.success(response.data as string);
+        setSuccess(true);
+        return;
+      }
+      toast.error(response.data as string);
+      return;
+    } catch (error: any) {
+      toast.error(error?.body?.message || error?.message);
+    }
   };
+
   const year = new Date().getFullYear();
 
   return (
@@ -190,21 +215,12 @@ const Register = () => {
               fontWeight="600"
             >
               Already have an account?
-              <Text textColor="#1E64D5">
-                <Link href="/login" color="brand.100">
-                  &nbsp;Sign in here.
-                </Link>{' '}
-              </Text>
+              <Link href="/login" textColor="#1E64D5">
+                &nbsp;Sign in here.
+              </Link>{' '}
             </Text>
           </VStack>
-          <Box
-            w="100%"
-            h={['100%', '100%', '100%']}
-            // border="2px hidden green"
-            overflow="auto"
-            py="15px"
-            pr="3px"
-          >
+          <Box w="100%" h="100%" overflow="auto" py="15px" pr="3px">
             <form onSubmit={handleSubmit(onSubmitRegister)}>
               <PrimaryInput<RegisterModel>
                 label="Email Address"
@@ -273,13 +289,13 @@ const Register = () => {
                   onChange={(e) => setTerms(e.target.checked)}
                 >
                   I have read, undrestood and accept the{' '}
-                  <span
+                  {/* <span
                     style={{
                       color: '#1570FA',
                     }}
                   >
                     Terms and Conditions
-                  </span>
+                  </span> */}
                 </Checkbox>
               </Flex>
 
@@ -288,7 +304,7 @@ const Register = () => {
 
             <Text
               fontSize={['14px', '14px']}
-              display={['block', 'block', 'block']}
+              display="block"
               textAlign="center"
               mt="1rem"
               color="#3e3e3e"

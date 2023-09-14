@@ -26,7 +26,7 @@ export default function RootLayout({
   const noNav =
     pathname?.startsWith('/login') || pathname?.startsWith('/register');
   const [showSide, setShowSide] = useState<boolean>(false);
-  console.log({ showSide });
+
   return (
     <html lang="en">
       <body>

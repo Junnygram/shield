@@ -157,20 +157,20 @@ const Login = () => {
 
             <Text
               fontSize={['14px', '16px']}
-              // display={['block', 'block', 'block']}
               display="flex"
               textAlign="center"
               fontWeight="600"
             >
               Do not have an account?
-              <Text textColor="#1E64D5">
-                <Link href="/register">&nbsp;Sign up here.</Link>
-              </Text>
+              <Link href="/register">
+                {/* <Link href="/register" textColor="#1E64D5"> */}
+                &nbsp;Sign up here.
+              </Link>
             </Text>
           </VStack>
           <Box
             w="100%"
-            h={['100%', '100%', '100%']}
+            h="100%"
             // border="2px hidden green"
             overflow="auto"
             py="15px"
